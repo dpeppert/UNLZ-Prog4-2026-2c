@@ -13,7 +13,12 @@ namespace ModeloUNLZ.Controllers
 
         public IActionResult Privacy()
         {
+            int i = 1;
+
+
             return View();
+
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
