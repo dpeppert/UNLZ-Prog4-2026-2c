@@ -15,7 +15,7 @@ namespace ModeloUNLZ.Controllers
         {
             int i = 1;
 
-
+            int j = 2;
             return View();
 
 
