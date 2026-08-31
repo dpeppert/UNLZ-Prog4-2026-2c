@@ -1,0 +1,14 @@
+﻿@model EventoVM
+
+
+<form asp-action="Delete" asp-route-id="@Model.IdEvento">
+<h1 style="font-color:red">Borrar Evento?</h1>
+<label>Nombre Evento</label>
+<p>@Model.NombreEvento</p>
+
+<label> Fecha Evento</label>
+<p>@Model.FechaEvento</p>
+
+    <input type="submit" value="Borrar" />
+
+</form>

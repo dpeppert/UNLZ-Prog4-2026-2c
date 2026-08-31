@@ -1,0 +1,27 @@
+﻿@model List<EventoVM>
+
+<h1>Hola Eventos Index</h1>
+<a href="/eventos/create">Crear nuevo Evento</a>
+<table style="font-size:40px">
+    <tr>
+    <th>Id</th>
+    <th>Nombre Evento</th>
+    <th>Fecha</th>
+    </tr>
+
+@foreach(var evento in Model)
+{
+        <tr>
+            <td> <a href="/Eventos/Details/@evento.IdEvento">Ir al Evento</a> | 
+                <a href="/Eventos/edit/@evento.IdEvento">Editar Evento</a> | 
+
+                <a href="/Eventos/delete/@evento.IdEvento">Borrar Evento</a>
+            </td>
+            <td>@evento.NombreEvento</td>
+            <td>@evento.FechaEvento</td>
+        </tr>
+
+}
+
+</table>
+

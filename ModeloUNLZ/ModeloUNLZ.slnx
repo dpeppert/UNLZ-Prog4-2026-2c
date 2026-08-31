@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Eventos.Web/Eventos.Web.csproj" Id="ee0fb095-1182-41dd-b3be-e2c0da4e6f93" />
   <Project Path="ModeloUNLZ/ModeloUNLZ.csproj" />
 </Solution>
