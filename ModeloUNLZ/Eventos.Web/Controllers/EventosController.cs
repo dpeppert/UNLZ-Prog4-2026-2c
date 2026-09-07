@@ -1,12 +1,15 @@
 ﻿using Eventos.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Diagnostics;
 
 namespace Eventos.Web.Controllers
 {
     public class EventosController : Controller
     {
         public List<EventoVM> eventos { get; set; }
+        public List<UbicacionVM> Ubicaciones { get; set; }
         public EventosController()
         {
            eventos = new List<EventoVM>();
@@ -14,6 +17,11 @@ namespace Eventos.Web.Controllers
             eventos.Add(new EventoVM { IdEvento = 1, FechaEvento = DateTime.Now, NombreEvento = "Racing - Boca" });
 
             eventos.Add(new EventoVM { IdEvento = 2, FechaEvento = DateTime.Now, NombreEvento = "Estudiantes - Ferro" });
+
+
+            Ubicaciones = new List<UbicacionVM>();
+            Ubicaciones.Add(new UbicacionVM { Id = 1, Nombre = "Movistar Arena" });
+            Ubicaciones.Add(new UbicacionVM { Id = 2, Nombre = "El Cilindro" });
 
         }
         // GET: EventosController
@@ -36,16 +44,29 @@ namespace Eventos.Web.Controllers
         // GET: EventosController/Create
         public ActionResult Create()
         {
-            return View();
+            EventoAltaVM evento = new EventoAltaVM();
+            evento.Ubicaciones = Ubicaciones
+                                    .Select(p => new SelectListItem(p.Nombre, p.Id.ToString()))
+                                    .ToList();
+            ;
+            return View(evento);
         }
 
         // POST: EventosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(EventoVM eventoNuevo)
+        public ActionResult Create(EventoAltaVM eventoNuevo)
         {
+            if (!ModelState.IsValid)
+            {
 
-            eventos.Add(eventoNuevo);
+                eventoNuevo.Ubicaciones = Ubicaciones
+                               .Select(p => new SelectListItem(p.Nombre, p.Id.ToString()))
+                               .ToList();
+
+                return View(eventoNuevo);
+            }
+           // eventos.Add(eventoNuevo);
             try
             {
                 return RedirectToAction(nameof(Index));

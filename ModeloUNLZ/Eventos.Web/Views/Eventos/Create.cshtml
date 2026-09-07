@@ -4,17 +4,43 @@
 @{
 }
 
-@model EventoVM
+@model EventoAltaVM
 <form asp-action="Create">
 
-    <label asp-for="IdEvento"></label>
-    <input asp-for="IdEvento" />
     
     <label asp-for="NombreEvento"></label>
     <input asp-for="NombreEvento" />
-    
+    <span asp-validation-for="NombreEvento" style="font-color:red"></span>
+    <br />
     <label asp-for="FechaEvento"></label>
     <input asp-for="FechaEvento" />
+    <span asp-validation-for="FechaEvento"></span>
+    <br />
+    <label asp-for="PrecioEntrada"></label>
+    <input asp-for="PrecioEntrada" />
+    <span asp-validation-for="PrecioEntrada"></span>
+    <br />
+    <input asp-for="EsVip" /> Es VIP <br />
 
+    <label asp-for="IdUbicacion"></label>
+    <select asp-for="IdUbicacion" asp-items="Model.Ubicaciones">
+        <option value="">Seleccione una ubicacion</option>
+    </select>
+    <span asp-validation-for="IdUbicacion"></span>
+
+    <br />
+    <label asp-for="Direccion.Calle"></label>
+    <input asp-for="Direccion.Calle" />
+    <span asp-validation-for="Direccion.Calle"></span>
+    
+    <br />
+    <label asp-for="Direccion.Numero"></label>
+    <input asp-for="Direccion.Numero" />
+    <span asp-validation-for="Direccion.Numero"></span>
+    <br />
+    <label asp-for="Direccion.CodigoPostal"></label>
+    <input asp-for="Direccion.CodigoPostal" />
+    <span asp-validation-for="Direccion.CodigoPostal"></span>
+    <br />
     <input type="submit" value="enviar informacion" />
 </form>
