@@ -44,3 +44,9 @@
     <br />
     <input type="submit" value="enviar informacion" />
 </form>
+<!-- Agregar estas lineas para la validacion automatica del lado del cliente para cada una de las vistas-->
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
