@@ -25,3 +25,17 @@
 
 </table>
 
+
+@{
+    string msj = (string)TempData["Mensaje"];
+
+
+}
+
+
+   @{ 
+       if (!String.IsNullOrEmpty(msj))
+        {
+            <span>@(msj)</span>
+        }
+    }

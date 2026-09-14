@@ -4,10 +4,17 @@
 @{
 }
 
+@{
+    string resultadomsj = ViewBag.Mensaje.ToString();
+
+
+ }
+
+
+
 @model EventoAltaVM
 <form asp-action="Create">
 
-    
     <label asp-for="NombreEvento"></label>
     <input asp-for="NombreEvento" />
     <span asp-validation-for="NombreEvento" style="font-color:red"></span>
@@ -43,10 +50,16 @@
     <span asp-validation-for="Direccion.CodigoPostal"></span>
     <br />
     <input type="submit" value="enviar informacion" />
+
+    <br />
+
+    
+   @{ 
+       if (!String.IsNullOrEmpty(resultadomsj))
+        {
+            <span>@(resultadomsj)</span>
+        }
+    }
 </form>
 <!-- Agregar estas lineas para la validacion automatica del lado del cliente para cada una de las vistas-->
 
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

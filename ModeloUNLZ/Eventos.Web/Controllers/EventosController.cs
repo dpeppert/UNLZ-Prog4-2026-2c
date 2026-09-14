@@ -1,17 +1,25 @@
 ﻿using Eventos.Web.Models;
+using Eventos.Web.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
 namespace Eventos.Web.Controllers
-{
+{ 
     public class EventosController : Controller
     {
+        private ISumatoriaService _sumatoriaService;
+
         public List<EventoVM> eventos { get; set; }
         public List<UbicacionVM> Ubicaciones { get; set; }
-        public EventosController()
+        public EventosController(ISumatoriaService sumatoriaService)
         {
+            _sumatoriaService = sumatoriaService;
+
+
            eventos = new List<EventoVM>();
 
             eventos.Add(new EventoVM { IdEvento = 1, FechaEvento = DateTime.Now, NombreEvento = "Racing - Boca" });
@@ -27,7 +35,8 @@ namespace Eventos.Web.Controllers
         // GET: EventosController
         public ActionResult Index()
         {
-            
+            _sumatoriaService.Sumar(1, 2);
+            ViewBag.Mensaje = "Inicio";
             return View(eventos);
         }
 
@@ -48,10 +57,29 @@ namespace Eventos.Web.Controllers
             evento.Ubicaciones = Ubicaciones
                                     .Select(p => new SelectListItem(p.Nombre, p.Id.ToString()))
                                     .ToList();
-            ;
+            ViewBag.Mensaje = "";
             return View(evento);
         }
 
+     /*   [HttpGet("ObtenerInformacion/{id:int}")]
+        public IActionResult ObtenerInformacionMedianteRuta([FromRoute]int id, [FromQuery] string texto1, [FromQuery]string texto2)
+        {
+
+            EventoAltaVM evento = new EventoAltaVM();
+
+            evento.IdUbicacion = 1;
+            evento.NombreEvento = "evento1";
+
+            return StatusCode(500);
+            // Content("Exitoso");
+            // Json(evento);
+
+            return NotFound();
+            return View("Index");
+
+
+        }
+     */
         // POST: EventosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,11 +92,15 @@ namespace Eventos.Web.Controllers
                                .Select(p => new SelectListItem(p.Nombre, p.Id.ToString()))
                                .ToList();
 
+                ViewBag.Mensaje = "Error";
+
                 return View(eventoNuevo);
             }
            // eventos.Add(eventoNuevo);
             try
             {
+
+                TempData["Mensaje"] = "Evento creado Exitoso";
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -84,6 +116,7 @@ namespace Eventos.Web.Controllers
 
             elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
 
+          //  ISumatoriaService sumatoriaService = new SumatoriaService();
 
             return View(elemento);
         }
