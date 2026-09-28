@@ -2,16 +2,20 @@ using Eventos.Data.Db;
 using Eventos.Data.Repositorios;
 using Eventos.Web.Services;
 using Microsoft.EntityFrameworkCore;
+using Eventos.Data.Inyecciones; // Este es el using que me faltaba para hacer referencia a la linea 11 
+//Si comentan esta linea, el error visto en clase vuelve a aparecer
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-//builder.Services.AddDataAccess(builder.Configuration.GetConnectionString("EventosDb"));
+
+
+builder.Services.AddDataAccess(builder.Configuration.GetConnectionString("EventosDb"));
 builder.Services.AddScoped<ISumatoriaService, SumatoriaService>();
-builder.Services.AddDbContext<EventosContext>(o =>
-               o.UseSqlServer(builder.Configuration.GetConnectionString("EventosDb")));
-builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+//builder.Services.AddDbContext<EventosContext>(o =>
+//               o.UseSqlServer(builder.Configuration.GetConnectionString("EventosDb")));
+//builder.Services.AddScoped<IEventoRepository, EventoRepository>();
 
 
 
