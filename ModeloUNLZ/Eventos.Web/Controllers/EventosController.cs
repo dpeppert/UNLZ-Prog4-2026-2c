@@ -14,7 +14,7 @@ namespace Eventos.Web.Controllers
         private ISumatoriaService _sumatoriaService;
 
         public List<EventoVM> eventos { get; set; }
-        public List<UbicacionVM> Ubicaciones { get; set; }
+     /*   public List<UbicacionVM> Ubicaciones { get; set; }*/
         public EventosController(ISumatoriaService sumatoriaService)
         {
             _sumatoriaService = sumatoriaService;
@@ -26,11 +26,11 @@ namespace Eventos.Web.Controllers
 
             eventos.Add(new EventoVM { IdEvento = 2, FechaEvento = DateTime.Now, NombreEvento = "Estudiantes - Ferro" });
 
-
+            /*
             Ubicaciones = new List<UbicacionVM>();
             Ubicaciones.Add(new UbicacionVM { Id = 1, Nombre = "Movistar Arena" });
             Ubicaciones.Add(new UbicacionVM { Id = 2, Nombre = "El Cilindro" });
-
+            */
         }
         // GET: EventosController
         public ActionResult Index()
@@ -39,7 +39,7 @@ namespace Eventos.Web.Controllers
             ViewBag.Mensaje = "Inicio";
             return View(eventos);
         }
-
+     
         // GET: EventosController/Details/5
         public ActionResult Details(int id)
         {
@@ -54,9 +54,9 @@ namespace Eventos.Web.Controllers
         public ActionResult Create()
         {
             EventoAltaVM evento = new EventoAltaVM();
-            evento.Ubicaciones = Ubicaciones
+           /* evento.Ubicaciones = Ubicaciones
                                     .Select(p => new SelectListItem(p.Nombre, p.Id.ToString()))
-                                    .ToList();
+                                    .ToList();*/
             ViewBag.Mensaje = "";
             return View(evento);
         }
@@ -87,11 +87,11 @@ namespace Eventos.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-
+                /*
                 eventoNuevo.Ubicaciones = Ubicaciones
                                .Select(p => new SelectListItem(p.Nombre, p.Id.ToString()))
                                .ToList();
-
+                */
                 ViewBag.Mensaje = "Error";
 
                 return View(eventoNuevo);

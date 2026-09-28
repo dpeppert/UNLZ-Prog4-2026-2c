@@ -28,16 +28,17 @@ namespace Eventos.Web.Models
 
         [Required(ErrorMessage = "Campo Requerido")] 
         public DateTime FechaEvento { get; set; }
+        /*
+        public decimal PrecioEntrada { get; set; }
 
         public DireccionVM Direccion { get; set; }
 
         [Range(0,500, ErrorMessage = "El campo no entra dentro del rango,")]
-        public decimal PrecioEntrada { get; set; }
 
         [Required(ErrorMessage = "Campo Requerido")]
         public int IdUbicacion { get; set; }
         public List<SelectListItem> Ubicaciones { get; set; }
-        public bool EsVip { get; set; }
+        public bool EsVip { get; set; }*/
 
     }
 
