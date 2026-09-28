@@ -1,4 +1,6 @@
-﻿using Eventos.Web.Models;
+﻿using Eventos.Data.Modelos;
+using Eventos.Data.Repositorios;
+using Eventos.Web.Models;
 using Eventos.Web.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -12,20 +14,17 @@ namespace Eventos.Web.Controllers
     public class EventosController : Controller
     {
         private ISumatoriaService _sumatoriaService;
+        private IEventoRepository _eventoRepository;
 
-        public List<EventoVM> eventos { get; set; }
+       // public List<EventoVM> eventos { get; set; }
      /*   public List<UbicacionVM> Ubicaciones { get; set; }*/
-        public EventosController(ISumatoriaService sumatoriaService)
+        public EventosController(ISumatoriaService sumatoriaService, IEventoRepository eventoRepository)
         {
             _sumatoriaService = sumatoriaService;
+            _eventoRepository = eventoRepository;
 
 
-           eventos = new List<EventoVM>();
-
-            eventos.Add(new EventoVM { IdEvento = 1, FechaEvento = DateTime.Now, NombreEvento = "Racing - Boca" });
-
-            eventos.Add(new EventoVM { IdEvento = 2, FechaEvento = DateTime.Now, NombreEvento = "Estudiantes - Ferro" });
-
+      
             /*
             Ubicaciones = new List<UbicacionVM>();
             Ubicaciones.Add(new UbicacionVM { Id = 1, Nombre = "Movistar Arena" });
@@ -37,6 +36,12 @@ namespace Eventos.Web.Controllers
         {
             _sumatoriaService.Sumar(1, 2);
             ViewBag.Mensaje = "Inicio";
+
+            List<EventoVM> eventos = new List<EventoVM>();
+            var eventosddbb = _eventoRepository.ObtenerEventos();
+
+            eventosddbb = eventosddbb.Where(x => x.Borrado == false).ToList();
+            eventos = eventosddbb.Select(x=> new EventoVM { IdEvento = x.IdEvento, FechaEvento = x.FechaEvento, NombreEvento = x.NombreEvento }).ToList();
             return View(eventos);
         }
      
@@ -45,8 +50,9 @@ namespace Eventos.Web.Controllers
         {
             EventoVM elemento = null;
 
-            elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
-
+            //elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
+            var eventoddb = _eventoRepository.ObtenerEventoPorId(id);
+            elemento = new EventoVM { IdEvento = eventoddb.IdEvento, FechaEvento = eventoddb.FechaEvento, NombreEvento = eventoddb.NombreEvento };
             return View(elemento);
         }
 
@@ -93,13 +99,19 @@ namespace Eventos.Web.Controllers
                                .ToList();
                 */
                 ViewBag.Mensaje = "Error";
+              
 
                 return View(eventoNuevo);
             }
            // eventos.Add(eventoNuevo);
             try
             {
+                Evento evento = new Evento();
 
+                evento.NombreEvento = eventoNuevo.NombreEvento;
+                evento.FechaEvento = eventoNuevo.FechaEvento;
+
+                _eventoRepository.AgregarEvento(evento);
                 TempData["Mensaje"] = "Evento creado Exitoso";
                 return RedirectToAction(nameof(Index));
             }
@@ -114,9 +126,11 @@ namespace Eventos.Web.Controllers
         {
             EventoVM elemento = null;
 
-            elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
+            var eventoddbb = _eventoRepository.ObtenerEventoPorId(id);
+            elemento  = new EventoVM { IdEvento = eventoddbb.IdEvento, FechaEvento = eventoddbb.FechaEvento, NombreEvento = eventoddbb.NombreEvento };  
+        
 
-          //  ISumatoriaService sumatoriaService = new SumatoriaService();
+            //            elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
 
             return View(elemento);
         }
@@ -128,6 +142,11 @@ namespace Eventos.Web.Controllers
         {
             try
             {
+                Evento eventoAModificar = new Evento();
+                eventoAModificar.IdEvento = eventoModificado.IdEvento;
+                eventoAModificar.NombreEvento = eventoModificado.NombreEvento;
+                eventoAModificar.FechaEvento = eventoModificado.FechaEvento;
+                _eventoRepository.ActualizarEvento(eventoAModificar);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -141,7 +160,11 @@ namespace Eventos.Web.Controllers
         {
             EventoVM elemento = null;
 
-            elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
+            var eventoddbb = _eventoRepository.ObtenerEventoPorId(id);
+            elemento  = new EventoVM { IdEvento = eventoddbb.IdEvento, FechaEvento = eventoddbb.FechaEvento, NombreEvento = eventoddbb.NombreEvento };  
+        
+
+            //            elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
 
             return View(elemento);
         }
@@ -153,8 +176,11 @@ namespace Eventos.Web.Controllers
         {
             try
             {
-
-                eventos.Remove(eventos.First(x => x.IdEvento == id));
+                var evento = _eventoRepository.ObtenerEventoPorId(id);
+                evento.Borrado = true;
+                _eventoRepository.ActualizarEvento(evento);
+                //_eventoRepository.BorrarEvento(id);
+                //eventos.Remove(eventos.First(x => x.IdEvento == id));
                 return RedirectToAction(nameof(Index));
             }
             catch

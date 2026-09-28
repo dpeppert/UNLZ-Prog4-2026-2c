@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Eventos.Data/Eventos.Data.csproj" Id="1733449c-223c-441a-aeab-7025424d234c" />
   <Project Path="Eventos.Web/Eventos.Web.csproj" Id="ee0fb095-1182-41dd-b3be-e2c0da4e6f93" />
   <Project Path="ModeloUNLZ/ModeloUNLZ.csproj" />
 </Solution>

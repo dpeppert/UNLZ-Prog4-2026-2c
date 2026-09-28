@@ -1,11 +1,19 @@
+using Eventos.Data.Db;
+using Eventos.Data.Repositorios;
 using Eventos.Web.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+//builder.Services.AddDataAccess(builder.Configuration.GetConnectionString("EventosDb"));
 builder.Services.AddScoped<ISumatoriaService, SumatoriaService>();
+builder.Services.AddDbContext<EventosContext>(o =>
+               o.UseSqlServer(builder.Configuration.GetConnectionString("EventosDb")));
+builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+
+
 
 var app = builder.Build();
 
