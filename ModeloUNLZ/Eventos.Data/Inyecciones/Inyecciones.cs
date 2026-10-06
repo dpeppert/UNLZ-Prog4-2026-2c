@@ -16,6 +16,8 @@ namespace Eventos.Data.Inyecciones
             services.AddDbContext<EventosContext>(o =>
                 o.UseSqlServer(connectionString));
             services.AddScoped<IEventoRepository, EventoRepository>();
+
+            services.AddScoped<IAsistenteRepository, AsistenteRepository>();
             return services;
         }
     }

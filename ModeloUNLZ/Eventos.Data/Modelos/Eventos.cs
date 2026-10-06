@@ -18,5 +18,7 @@ namespace Eventos.Data.Modelos
 
         [Column(TypeName = "bit")]
         public bool Borrado { get; set; }
+
+        public List<Asistente> Asistentes { get; set; } = null;
     }
 }

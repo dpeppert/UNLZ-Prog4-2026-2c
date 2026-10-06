@@ -12,6 +12,8 @@ namespace Eventos.Data.Db
         public EventosContext(DbContextOptions<EventosContext> options): base(options) { }
 
         public DbSet<Evento> Eventos => Set<Evento>();
+
+        public DbSet<Asistente> Asistentes => Set<Asistente>();
     }
 
 }

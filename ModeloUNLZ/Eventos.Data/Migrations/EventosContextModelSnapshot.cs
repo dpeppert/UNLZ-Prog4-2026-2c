@@ -22,6 +22,32 @@ namespace Eventos.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Eventos.Data.Modelos.Asistente", b =>
+                {
+                    b.Property<int>("IdAsistente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAsistente"));
+
+                    b.Property<int>("EventoIdEvento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdEvento")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("IdAsistente");
+
+                    b.HasIndex("EventoIdEvento");
+
+                    b.ToTable("Asistentes");
+                });
+
             modelBuilder.Entity("Eventos.Data.Modelos.Evento", b =>
                 {
                     b.Property<int>("IdEvento")
@@ -44,6 +70,17 @@ namespace Eventos.Data.Migrations
                     b.HasKey("IdEvento");
 
                     b.ToTable("Eventos");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.Asistente", b =>
+                {
+                    b.HasOne("Eventos.Data.Modelos.Evento", "Evento")
+                        .WithMany()
+                        .HasForeignKey("EventoIdEvento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Evento");
                 });
 #pragma warning restore 612, 618
         }

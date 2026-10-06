@@ -15,6 +15,9 @@ namespace Eventos.Web.Models
         public decimal PrecioEntrada { get; set; }
         public int IdUbicacion { get; set; }
         public List<SelectListItem> Ubicaciones { get; set; }
+
+
+        public List<string> NombresAsistentes { get; set; }
         public bool EsVip { get; set; }
 
     }
@@ -28,6 +31,7 @@ namespace Eventos.Web.Models
 
         [Required(ErrorMessage = "Campo Requerido")] 
         public DateTime FechaEvento { get; set; }
+
         /*
         public decimal PrecioEntrada { get; set; }
 

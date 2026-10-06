@@ -1,5 +1,6 @@
 ﻿using Eventos.Data.Db;
 using Eventos.Data.Modelos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -45,8 +46,14 @@ namespace Eventos.Data.Repositorios
         }
 
         public Evento ObtenerEventoPorId(int IdEvento)
-        {
-            Evento evento = _db.Eventos.Find(IdEvento);
+        { 
+
+            Evento evento = _db.Eventos
+                                .Include(x=> x.Asistentes)
+                                .Where(x=> x.IdEvento == IdEvento)
+                                .FirstOrDefault();
+
+
             //Evento evento = _db.Eventos.Where(x=> x.IdEvento == IdEvento).FirstOrDefault(); 
             return evento;
         }

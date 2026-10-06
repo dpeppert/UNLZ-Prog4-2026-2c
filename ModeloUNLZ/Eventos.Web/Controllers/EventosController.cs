@@ -50,9 +50,23 @@ namespace Eventos.Web.Controllers
         {
             EventoVM elemento = null;
 
+
+
             //elemento = eventos.FirstOrDefault(x => x.IdEvento == id);
             var eventoddb = _eventoRepository.ObtenerEventoPorId(id);
-            elemento = new EventoVM { IdEvento = eventoddb.IdEvento, FechaEvento = eventoddb.FechaEvento, NombreEvento = eventoddb.NombreEvento };
+
+            List<string> nombres = new List<string>();
+                
+            foreach(var asistentes in eventoddb.Asistentes)
+            {
+                nombres.Add(asistentes.Nombre);
+            }
+
+
+            elemento = new EventoVM { 
+                    IdEvento = eventoddb.IdEvento, 
+                FechaEvento = eventoddb.FechaEvento, 
+                NombreEvento = eventoddb.NombreEvento, NombresAsistentes = nombres  };
             return View(elemento);
         }
 

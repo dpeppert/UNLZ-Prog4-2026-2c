@@ -1,0 +1,22 @@
+﻿@model Eventos.Web.Models.AsistenteVM
+
+
+
+<form asp-action="AgregarAsistente">
+
+    <label asp-for="Nombre"></label>
+    <input asp-for="Nombre" />
+    <span asp-validation-for="Nombre" style="font-color:red"></span>
+    <br />
+
+<input type="hidden" asp-for="IdEvento" />
+      
+    <br />
+    <input type="submit" value="enviar informacion" />
+
+    <br />
+
+    
+     
+</form>
+
