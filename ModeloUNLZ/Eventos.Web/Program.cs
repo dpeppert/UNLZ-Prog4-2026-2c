@@ -2,10 +2,29 @@ using Eventos.Data.Db;
 using Eventos.Data.Repositorios;
 using Eventos.Web.Services;
 using Microsoft.EntityFrameworkCore;
-using Eventos.Data.Inyecciones; // Este es el using que me faltaba para hacer referencia a la linea 11 
+using Eventos.Data.Inyecciones;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google; // Este es el using que me faltaba para hacer referencia a la linea 11 
 //Si comentan esta linea, el error visto en clase vuelve a aparecer
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(options =>
+{
+    options.LoginPath = "/Login/Index";
+})
+.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
+{
+    options.ClientId = builder.Configuration.GetSection("GoogleKeys:ClientId").Value;
+    options.ClientSecret = builder.Configuration.GetSection("GoogleKeys:ClientSecret").Value;
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -31,6 +50,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -2,6 +2,7 @@
 using Eventos.Data.Repositorios;
 using Eventos.Web.Models;
 using Eventos.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
 namespace Eventos.Web.Controllers
-{ 
+{
+    [Authorize]
     public class EventosController : Controller
     {
         private ISumatoriaService _sumatoriaService;
