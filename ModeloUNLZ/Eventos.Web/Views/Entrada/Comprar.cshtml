@@ -1,0 +1,17 @@
+@model EntradaVM
+
+<h1>Comprar Entrada</h1>
+
+<label>Nombre Evento</label>
+<p>@Model.NombreEvento</p>
+
+<label>Fecha Evento</label>
+<p>@Model.FechaEvento.ToShortDateString()</p>
+
+<form method="post" action="/Entrada/Comprar">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="IdEvento" />
+
+    <input type="submit" value="Confirmar compra" />
+    <a href="/Entrada">Cancelar</a>
+</form>

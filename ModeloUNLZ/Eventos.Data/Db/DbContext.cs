@@ -14,6 +14,17 @@ namespace Eventos.Data.Db
         public DbSet<Evento> Eventos => Set<Evento>();
 
         public DbSet<Asistente> Asistentes => Set<Asistente>();
+
+        public DbSet<Entrada> Entradas => Set<Entrada>();
+
+        public DbSet<Usuario> Usuarios => Set<Usuario>();
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+        }
     }
 
 }

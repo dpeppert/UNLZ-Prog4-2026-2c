@@ -1,0 +1,26 @@
+@model List<EntradaCompradaVM>
+
+<h1>Entradas Compradas</h1>
+<table>
+    <tr>
+        <th>Nro</th>
+        <th>Evento</th>
+        <th>Fecha Evento</th>
+        <th>Comprador</th>
+        <th>Email</th>
+        <th>Fecha Compra</th>
+    </tr>
+
+@foreach (var entrada in Model)
+{
+        <tr>
+            <td>@entrada.IdEntrada</td>
+            <td>@entrada.NombreEvento</td>
+            <td>@entrada.FechaEvento.ToShortDateString()</td>
+            <td>@entrada.NombreComprador</td>
+            <td>@entrada.EmailComprador</td>
+            <td>@entrada.FechaCompra</td>
+        </tr>
+}
+
+</table>

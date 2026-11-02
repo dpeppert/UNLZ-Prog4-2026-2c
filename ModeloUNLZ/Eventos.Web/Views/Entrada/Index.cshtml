@@ -1,0 +1,30 @@
+@model List<EventoVM>
+
+<h1>Entradas</h1>
+<a href="/Entrada/MisEntradas">Mis Entradas</a>
+<table>
+    <tr>
+        <th></th>
+        <th>Nombre Evento</th>
+        <th>Fecha</th>
+    </tr>
+
+@foreach (var evento in Model)
+{
+        <tr>
+            <td><a href="/Entrada/Comprar/@evento.IdEvento">Comprar Entrada</a></td>
+            <td>@evento.NombreEvento</td>
+            <td>@evento.FechaEvento.ToShortDateString()</td>
+        </tr>
+}
+
+</table>
+
+@{
+    string msj = (string)TempData["Mensaje"];
+}
+
+@if (!String.IsNullOrEmpty(msj))
+{
+    <span>@(msj)</span>
+}

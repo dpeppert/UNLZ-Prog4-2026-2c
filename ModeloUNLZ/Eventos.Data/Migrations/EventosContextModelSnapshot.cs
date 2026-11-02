@@ -48,6 +48,32 @@ namespace Eventos.Data.Migrations
                     b.ToTable("Asistentes");
                 });
 
+            modelBuilder.Entity("Eventos.Data.Modelos.Entrada", b =>
+                {
+                    b.Property<int>("IdEntrada")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdEntrada"));
+
+                    b.Property<DateTime>("FechaCompra")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("IdEvento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdPersona")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdEntrada");
+
+                    b.HasIndex("IdEvento");
+
+                    b.HasIndex("IdPersona");
+
+                    b.ToTable("Entradas");
+                });
+
             modelBuilder.Entity("Eventos.Data.Modelos.Evento", b =>
                 {
                     b.Property<int>("IdEvento")
@@ -72,15 +98,68 @@ namespace Eventos.Data.Migrations
                     b.ToTable("Eventos");
                 });
 
+            modelBuilder.Entity("Eventos.Data.Modelos.Usuario", b =>
+                {
+                    b.Property<int>("IdPersona")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdPersona"));
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("FechaAlta")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("IdPersona");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.ToTable("Usuarios");
+                });
+
             modelBuilder.Entity("Eventos.Data.Modelos.Asistente", b =>
                 {
                     b.HasOne("Eventos.Data.Modelos.Evento", "Evento")
-                        .WithMany()
+                        .WithMany("Asistentes")
                         .HasForeignKey("EventoIdEvento")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Evento");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.Entrada", b =>
+                {
+                    b.HasOne("Eventos.Data.Modelos.Evento", "Evento")
+                        .WithMany()
+                        .HasForeignKey("IdEvento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Eventos.Data.Modelos.Usuario", "Persona")
+                        .WithMany()
+                        .HasForeignKey("IdPersona")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Evento");
+
+                    b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.Evento", b =>
+                {
+                    b.Navigation("Asistentes");
                 });
 #pragma warning restore 612, 618
         }

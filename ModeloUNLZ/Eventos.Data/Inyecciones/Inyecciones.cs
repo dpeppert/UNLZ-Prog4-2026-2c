@@ -18,6 +18,8 @@ namespace Eventos.Data.Inyecciones
             services.AddScoped<IEventoRepository, EventoRepository>();
 
             services.AddScoped<IAsistenteRepository, AsistenteRepository>();
+            services.AddScoped<IEntradaRepository, EntradaRepository>();
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             return services;
         }
     }

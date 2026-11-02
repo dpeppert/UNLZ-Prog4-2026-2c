@@ -2,11 +2,20 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
+using Eventos.Data.Repositorios;
+using System.Security.Claims;
 
 namespace Eventos.Web.Controllers
 {
     public class LoginController : Controller
     {
+        private IUsuarioRepository _usuarioRepository;
+
+        public LoginController(IUsuarioRepository usuarioRepository)
+        {
+            _usuarioRepository = usuarioRepository;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -28,7 +37,11 @@ namespace Eventos.Web.Controllers
                 claim.Type,
                 claim.Value
             });
-            // Aquí puedes manejar los claims obtenidos, por ejemplo, guardarlos en la base de datos o en la sesión.
+            // Si el usuario no esta en la tabla de usuarios, se da de alta
+            var email = result.Principal.FindFirstValue(ClaimTypes.Email);
+            var nombre = result.Principal.FindFirstValue(ClaimTypes.Name);
+            _usuarioRepository.ObtenerOCrearUsuario(email, nombre);
+
             return RedirectToAction("Index", "Home");
         }
 
