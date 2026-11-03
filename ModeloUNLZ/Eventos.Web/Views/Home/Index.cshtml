@@ -11,6 +11,16 @@
 @if(User.Identity.IsAuthenticated)
 {
     <h3> Hola @User.Identity.Name</h3>
+    <ul>
+    @foreach (var claim in User.Claims){
+
+        if (claim.Type == "Permiso") { 
+            <li> @claim.Value </li>
+            }
+        }
+
+    
+    </ul>
     <a asp-action="logout" asp-controller="login"> Cerrar Sesión</a>
 
 }else

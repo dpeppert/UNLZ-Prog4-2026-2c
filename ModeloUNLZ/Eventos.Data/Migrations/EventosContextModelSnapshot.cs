@@ -22,6 +22,23 @@ namespace Eventos.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Eventos.Data.Modelos.Accion", b =>
+                {
+                    b.Property<int>("IdAccion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdAccion"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdAccion");
+
+                    b.ToTable("Acciones");
+                });
+
             modelBuilder.Entity("Eventos.Data.Modelos.Asistente", b =>
                 {
                     b.Property<int>("IdAsistente")
@@ -98,6 +115,52 @@ namespace Eventos.Data.Migrations
                     b.ToTable("Eventos");
                 });
 
+            modelBuilder.Entity("Eventos.Data.Modelos.Rol", b =>
+                {
+                    b.Property<int>("IdRol")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRol"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdRol");
+
+                    b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.RolAccion", b =>
+                {
+                    b.Property<int>("IdRolAccion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRolAccion"));
+
+                    b.Property<int>("AccionIdAccion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdAccion")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolIdRol")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdRolAccion");
+
+                    b.HasIndex("AccionIdAccion");
+
+                    b.HasIndex("RolIdRol");
+
+                    b.ToTable("RolesAcciones");
+                });
+
             modelBuilder.Entity("Eventos.Data.Modelos.Usuario", b =>
                 {
                     b.Property<int>("IdPersona")
@@ -125,6 +188,35 @@ namespace Eventos.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.UsuarioRol", b =>
+                {
+                    b.Property<int>("IdUsuarioRol")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdUsuarioRol"));
+
+                    b.Property<int>("IdRol")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolIdRol")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsuarioIdPersona")
+                        .HasColumnType("int");
+
+                    b.HasKey("IdUsuarioRol");
+
+                    b.HasIndex("RolIdRol");
+
+                    b.HasIndex("UsuarioIdPersona");
+
+                    b.ToTable("UsuarioRoles");
                 });
 
             modelBuilder.Entity("Eventos.Data.Modelos.Asistente", b =>
@@ -155,6 +247,44 @@ namespace Eventos.Data.Migrations
                     b.Navigation("Evento");
 
                     b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.RolAccion", b =>
+                {
+                    b.HasOne("Eventos.Data.Modelos.Accion", "Accion")
+                        .WithMany()
+                        .HasForeignKey("AccionIdAccion")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Eventos.Data.Modelos.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolIdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Accion");
+
+                    b.Navigation("Rol");
+                });
+
+            modelBuilder.Entity("Eventos.Data.Modelos.UsuarioRol", b =>
+                {
+                    b.HasOne("Eventos.Data.Modelos.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolIdRol")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Eventos.Data.Modelos.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioIdPersona")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Rol");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("Eventos.Data.Modelos.Evento", b =>

@@ -19,6 +19,11 @@ namespace Eventos.Data.Db
 
         public DbSet<Usuario> Usuarios => Set<Usuario>();
 
+        public DbSet<UsuarioRol> UsuarioRoles => Set<UsuarioRol>();
+        public DbSet<Rol> Roles => Set<Rol>();
+        public DbSet<RolAccion> RolesAcciones => Set<RolAccion>();
+        public DbSet<Accion> Acciones => Set<Accion>();
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Usuario>()

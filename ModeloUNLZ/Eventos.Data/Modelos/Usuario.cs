@@ -15,5 +15,6 @@ namespace Eventos.Data.Modelos
         [MaxLength(200)]
         public string Nombre { get; set; }
         public DateTime FechaAlta { get; set; }
+        public List<UsuarioRol> UsuarioRoles { get; set; } = new List<UsuarioRol>();
     }
 }
